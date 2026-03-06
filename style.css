@@ -46,7 +46,9 @@ color:#333;
 transition:0.3s;
 }
 
-nav a:hover
+nav a:hover{
+color:#0077ff;
+}
 
 .cta{
 background:#0077ff;
@@ -118,7 +120,9 @@ cursor:pointer;
 transition:0.3s;
 }
 
-.secondary:hover
+.secondary:hover{
+background:#f2f2f2;
+}
 
 /* BACKGROUND GRID */
 
@@ -356,4 +360,16 @@ nav{
 display:none;
 }
 
+}
+
+/* APPLE STYLE 3D TILT SUPPORT */
+
+.cards{
+perspective:1200px;
+}
+
+.card{
+transform-style:preserve-3d;
+will-change:transform;
+transition:transform 0.25s ease, box-shadow 0.25s ease;
 }
