@@ -3,6 +3,8 @@
  - Animated counters (triggered when .stats is visible)
  - Responsive canvas "circuit" animation
  - Apple-style 3D tilt for .card elements
+ - Product slider duplication for seamless rightward infinite scroll
+ - Product click popup (centered preview) with escape/click-outside/close button
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -210,5 +212,160 @@ document.addEventListener("DOMContentLoaded", () => {
       card.addEventListener('blur', () => { card.style.transform = 'scale(1)'; });
     });
   })();
+
+
+  /* -------------------------
+     Product slider duplication + popup
+     - duplicates track children for continuous visual loop
+     - pause on hover
+     - product click opens centered popup (created if missing)
+     ------------------------- */
+  (function setupProducts() {
+    const productsSection = document.getElementById('products');
+    if (!productsSection) return;
+
+    const track = productsSection.querySelector('.track');
+    if (!track) return;
+
+    // 1) Duplicate children to create a seamless continuous row (if not already duplicated)
+    // We check if we've already duplicated (data-duplicated flag).
+    if (!track.dataset.duplicated) {
+      const items = Array.from(track.children);
+      items.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+      });
+      track.dataset.duplicated = "true";
+    }
+
+    // 2) Pause-on-hover for accessibility & better UX
+    track.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    track.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = '';
+    });
+
+    // 3) Create popup markup if missing
+    let popup = document.getElementById('popup');
+    if (!popup) {
+      popup = document.createElement('div');
+      popup.className = 'product-popup';
+      popup.id = 'popup';
+      popup.innerHTML = `
+        <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+          <div class="popup-close" id="popup-close" title="Close">✕</div>
+          <img id="popup-img" src="" alt="">
+          <h3 id="popup-title"></h3>
+          <p id="popup-text"></p>
+        </div>
+      `;
+      document.body.appendChild(popup);
+    }
+
+    const popupContent = popup.querySelector('.popup-content');
+    const popupImg = popup.querySelector('#popup-img');
+    const popupTitle = popup.querySelector('#popup-title');
+    const popupText = popup.querySelector('#popup-text');
+    const popupClose = popup.querySelector('#popup-close');
+
+    // helper open/close functions
+    function openPopup(src, title, text) {
+      popupImg.src = src || '';
+      popupImg.alt = title || 'Product';
+      popupTitle.innerText = title || '';
+      popupText.innerText = text || '';
+      popup.classList.add('active');
+
+      // pause slider while popup open
+      track.style.animationPlayState = 'paused';
+
+      // trap focus briefly (simple): move focus to close button
+      if (popupClose) popupClose.focus();
+    }
+
+    function closePopup() {
+      popup.classList.remove('active');
+      // resume slider
+      track.style.animationPlayState = '';
+      // clear img src to stop audio-heavy files or free memory
+      // leave it, optional
+    }
+
+    // 4) Attach click handler to product cards (including cloned ones)
+    // We look for elements with .product-card inside the track
+    function attachProductListeners() {
+      const productCards = track.querySelectorAll('.product-card');
+      productCards.forEach(card => {
+        // avoid adding multiple listeners
+        if (card.dataset.listenerAttached) return;
+
+        card.addEventListener('click', (e) => {
+          // find title, description, image inside the card
+          const imgEl = card.querySelector('img');
+          const titleEl = card.querySelector('h3');
+          const descEl = card.querySelector('p');
+          const src = imgEl ? (imgEl.getAttribute('data-full') || imgEl.src) : '';
+          const title = titleEl ? titleEl.innerText : '';
+          const text = descEl ? descEl.innerText : '';
+
+          openPopup(src, title, text);
+        });
+
+        card.dataset.listenerAttached = '1';
+      });
+    }
+
+    attachProductListeners();
+
+    // If new product cards are added later, observe and attach listeners
+    const mo = new MutationObserver(() => {
+      attachProductListeners();
+    });
+    mo.observe(track, { childList: true, subtree: true });
+
+    // 5) Close popup interactions
+    // close button
+    if (popupClose) {
+      popupClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePopup();
+      });
+    }
+
+    // click outside content closes
+    popup.addEventListener('click', (e) => {
+      if (!popupContent.contains(e.target)) {
+        closePopup();
+      }
+    });
+
+    // Esc key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+
+    // Accessibility: prevent propagation when clicking inside content
+    popupContent.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // 6) Nice: pause slider while user focuses anywhere inside popup (keyboard)
+    popup.addEventListener('focusin', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    popup.addEventListener('focusout', () => {
+      if (!popup.classList.contains('active')) {
+        track.style.animationPlayState = '';
+      }
+    });
+
+    // 7) Optional: if CSS animation is not smooth across widths, we can programmatically set
+    // animation-duration based on content width (kept simple here). If you want more refined speed
+    // we can measure scroll width and adjust duration. For now we leave CSS durations.
+  })();
+
 
 }); // DOMContentLoaded
