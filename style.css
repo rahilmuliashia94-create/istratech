@@ -739,3 +739,43 @@ transition:transform 0.25s ease, box-shadow 0.25s ease;
 /* small visual polish so page breathes a bit more */
 .why-us .cards { margin-top: 18px; }
 .why-us h3, .why-us h4 { margin-top: 6px; margin-bottom: 8px; }
+.why-section{
+margin-top:60px;
+display:flex;
+flex-direction:column;
+gap:80px;
+}
+
+.why-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:50px;
+align-items:center;
+}
+
+.why-row img{
+width:100%;
+height:280px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.why-row.reverse{
+direction:rtl;
+}
+
+.why-row.reverse div{
+direction:ltr;
+}
+
+@media (max-width:900px){
+
+.why-row{
+grid-template-columns:1fr;
+}
+
+.why-row.reverse{
+direction:ltr;
+}
+
+}
