@@ -868,3 +868,9 @@ direction:ltr;
   content:" ▼";
   font-size:10px;
 }
+/* fix right-side dropdown (Support) */
+
+nav .dropdown:last-child .mega-menu{
+  right:0;
+  left:auto;
+}
