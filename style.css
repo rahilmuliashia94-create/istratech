@@ -543,3 +543,199 @@ transform-style:preserve-3d;
 will-change:transform;
 transition:transform 0.25s ease, box-shadow 0.25s ease;
 }
+/* ===== why-us scoped layout & animations (paste at end of style.css) ===== */
+
+/* page container */
+.why-us {
+  padding: 60px 6%;
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  color: #0b1220;
+  line-height: 1.55;
+}
+
+/* Intro / headings */
+.why-us h1 {
+  font-size: 2.1rem;
+  margin-bottom: 12px;
+  letter-spacing: -0.4px;
+}
+.why-intro p {
+  max-width: 880px;
+  margin: 8px auto 0;
+  color: #223;
+  opacity: 0.95;
+}
+.why-intro .muted {
+  color: #556;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+/* Hero row: large image + side */
+.hero-why {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 26px;
+}
+.hero-card .card-img-large {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 18px 40px rgba(6,22,63,0.06);
+}
+.hero-card-text h2 {
+  margin-top: 12px;
+  margin-bottom: 10px;
+  font-size: 1.35rem;
+}
+.hero-side { padding-top: 6px; }
+.mini-stats { display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;}
+.mini-stat { min-width:86px; text-align:left; background:transparent; padding:8px 6px; border-radius:8px; }
+.mini-stat .num { font-weight:700; font-size:1.05rem; }
+
+/* Feature deep: convert to two-column rows */
+.feature-deep {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+/* Each converted feature card becomes media + content row */
+.feature-deep .card,
+.case-cards .case {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 14px 12px;
+  border-radius: 10px;
+  background: transparent; /* keep existing look, remove if you want card background */
+}
+
+/* media + content sizing */
+.card-media,
+.case-media {
+  flex: 0 0 320px;
+  max-width: 320px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.card-media img,
+.case-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* content area */
+.card-content,
+.case-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.card-content h3,
+.case-content h4 {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.card-content p.small {
+  color: #5b6b7a;
+  font-size: 0.92rem;
+}
+
+/* Process cards (smaller grid) */
+.why-process .process-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.why-process .card.process { padding: 12px; }
+
+/* Stats strip */
+.why-stats.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 18px;
+  align-items: center;
+  margin: 30px 0;
+  padding: 18px 6px;
+  background: rgba(6,22,63,0.03);
+  border-radius: 10px;
+}
+.why-stats .stat h2 { font-size: 1.6rem; margin: 0; }
+.why-stats .stat p { margin: 6px 0 0; color: #425; }
+
+/* Case studies: image left, text right (already converted by JS) */
+.case-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.case-cards .case {
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding: 12px;
+}
+.case-img { width: 220px; height: 140px; object-fit: cover; border-radius:8px; }
+
+/* Gallery compact grid */
+.why-gallery .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.gallery-item img { width:100%; height:140px; object-fit:cover; border-radius:8px; display:block; }
+
+/* Testimonials: simple grid */
+.why-testimonials .cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:12px; }
+.testimonial p { margin: 0 0 8px; color:#1a2732; }
+
+/* Badges row */
+.why-badges .badges-cards { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+.badge { padding:8px 12px; border-radius:8px; background:rgba(0,0,0,0.04); font-weight:600; }
+
+/* FAQ accordion look */
+.faq-cards .faq-item { padding:8px; margin-bottom:10px; border-radius:8px; }
+.faq-q { width:100%; text-align:left; padding:12px; background:transparent; border:none; font-size:1rem; cursor:pointer; }
+.faq-a { padding:10px 12px; border-left:3px solid rgba(0,119,255,0.12); margin-top:8px; display:none; }
+
+/* Team cards */
+.team-cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:12px; margin-top:12px; }
+.team-img { width:100%; height:140px; object-fit:cover; border-radius:8px; }
+
+/* final CTA area */
+.final-cta { display:flex; gap:10px; flex-wrap:wrap; margin-top:26px; align-items:center; }
+
+/* Accessibility & focus */
+.card:focus { outline: 3px solid rgba(0,119,255,0.12); outline-offset:4px; }
+
+/* Animation base states (JS also toggles inline styles but CSS fallback is good) */
+.animate-media { opacity: 0; transform: translateX(-18px); transition: transform .7s cubic-bezier(.2,.9,.2,1), opacity .7s ease; }
+.animate-text { opacity: 0; transform: translateY(14px); transition: transform .7s cubic-bezier(.2,.9,.2,1) .12s, opacity .7s ease .12s; }
+
+/* When JS triggers inline styles, elements will transition to visible state (no extra class needed) */
+
+/* Responsive: stack on small screens */
+@media (max-width: 880px) {
+  .hero-why { grid-template-columns: 1fr; }
+  .card-media, .case-media { max-width: 100%; flex: 0 0 100%; }
+  .feature-deep .card { flex-direction: column; gap: 12px; }
+  .case-cards .case { flex-direction: column; }
+  .why-us { padding: 34px 6%; }
+  .hero-card .card-img-large { height: 220px; }
+  .card-media img, .case-img { height: 180px; }
+}
+
+/* small visual polish so page breathes a bit more */
+.why-us .cards { margin-top: 18px; }
+.why-us h3, .why-us h4 { margin-top: 6px; margin-bottom: 8px; }
