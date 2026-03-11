@@ -777,12 +777,11 @@ grid-template-columns:1fr;
 .why-row.reverse{
 direction:ltr;
 }
-
 /* =========================
    MEGA NAVBAR (REPLACEMENT)
-   Fixes: positioning, centering, hover + keyboard accessibility,
-   prevents viewport overflow and keeps layout consistent.
-   Replace only the existing mega navbar block with this.
+   Replace ONLY the mega-nav block with this.
+   Fixes: prevents inline expansion, controls wrapping,
+   centers dropdown, improves hover + keyboard access.
    ========================= */
 
 .navbar nav {
@@ -790,9 +789,9 @@ direction:ltr;
   gap: 28px;
   align-items: center;
   position: relative;
+  z-index: 1100; /* ensures dropdown sits above most content */
 }
 
-/* keep link appearance consistent with rest of stylesheet */
 .navbar nav a {
   text-decoration: none;
   color: #111;
@@ -800,110 +799,111 @@ direction:ltr;
   position: relative;
 }
 
-/* dropdown wrapper should be the positioning context */
+/* make each dropdown wrapper an inline-block context so it doesn't expand full width */
 .dropdown {
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
 }
 
-/* mega menu
-   - centered under the navbar
-   - limited max-width so it doesn't overflow wide viewports
-   - hidden by default and revealed on hover / keyboard focus-within
-*/
+/* hidden by default so it cannot push content into one long line */
 .mega-menu {
   position: absolute;
-  left: 50%;
   top: 100%;
+  left: 50%;
   transform: translateX(-50%) translateY(10px);
-  width: calc(100% - 48px);     /* leaves a small gutter on very small screens */
-  max-width: 1200px;            /* matches the site's max content width */
+  width: min(1200px, 95vw);
   background: #ffffff;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.10);
-  padding: 40px 36px;
-  display: flex;
-  gap: 60px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  padding: 24px 30px;
   border-radius: 10px;
+
+  /* layout: responsive grid that wraps into sensible columns */
+  display: none;               /* hidden until hover/focus */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  white-space: normal;         /* allow wrapping inside grid items */
+
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  transition: opacity .25s ease, transform .25s ease, visibility .25s;
-  z-index: 1100; /* above navbar (navbar z-index:1000) so it visually appears on top */
+  transition: opacity .22s ease, transform .22s ease;
   box-sizing: border-box;
+  z-index: 1200;
 }
 
-/* show menu on hover or keyboard focus (accessibility) */
-.dropdown:hover .mega-menu,
-.dropdown:focus-within .mega-menu {
+/* Reveal on hover or keyboard focus */
+.dropdown:hover > .mega-menu,
+.dropdown:focus-within > .mega-menu {
+  display: grid;
   opacity: 1;
-  visibility: visible;
   transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
 
-/* columns inside the mega menu */
+/* columns inside mega menu */
 .mega-column {
   display: flex;
   flex-direction: column;
-  min-width: 220px;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* column headings */
-.mega-column strong {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #555;
-  text-transform: uppercase;
-}
-
-/* links inside columns */
+/* ensure links are block-level so very long labels wrap vertically */
 .mega-column a {
+  display: block;
   color: #333;
   font-size: 14px;
   text-decoration: none;
-  transition: all .18s ease;
+  padding: 4px 2px;
+  line-height: 1.25;
+  transition: color .18s ease, transform .18s ease;
 }
 
 .mega-column a:hover,
 .mega-column a:focus {
   color: #0077ff;
-  transform: translateX(3px);
+  transform: translateX(4px);
   outline: none;
 }
 
-/* pointer indicator for dropdown toggles */
+/* optional small heading style inside columns */
+.mega-column strong {
+  font-size: 13px;
+  color: #555;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* dropdown arrow indicator */
 .dropdown > a::after {
   content: " ▼";
   font-size: 10px;
   margin-left: 6px;
 }
 
-/* Responsive: collapse mega menu into a stacked block on small viewports */
+/* Small screens: collapse behavior (keeps things tidy) */
 @media (max-width: 900px) {
   .mega-menu {
     position: static;
     transform: none;
-    width: 100%;
-    max-width: none;
-    padding: 18px 16px;
-    box-shadow: none;
-    display: none; /* keep hidden by default on small screens when nav hidden via other rules */
+    display: none; /* keep hidden by default on small screens */
     opacity: 1;
-    visibility: visible;
     pointer-events: auto;
-  }
-
-  /* if you need to show the mega-menu via JS on mobile, add a class (e.g. .open) to .mega-menu */
-  .mega-menu.open {
-    display: block;
-  }
-
-  .mega-column {
-    min-width: 0;
     width: 100%;
+    padding: 12px 14px;
+    box-shadow: none;
+    border-radius: 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* If you want to toggle the menu via JS on mobile, add .open to .mega-menu */
+  .mega-menu.open {
+    display: grid;
   }
 
   .navbar nav {
     gap: 12px;
   }
+
+  .mega-column a { padding: 8px 4px; }
 }
