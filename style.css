@@ -777,20 +777,22 @@ grid-template-columns:1fr;
 .why-row.reverse{
 direction:ltr;
 }
-/* =========================
-   REPLACEMENT MEGA NAVBAR BLOCK
-   Paste this whole block in place of your original .dropdown / .mega-menu rules.
-   Fixes: prevents inline expansion, avoids taking full page height,
-   uses visibility/opacity for smooth show/hide, supports internal scrolling,
-   and preserves .mega-menu.open for mobile toggling.
-   ========================= */
+   
+/* ---------- FULL REPLACEMENT: MEGA MENU (drop into your style.css replacing previous mega-menu rules) ----------
+   Works with the HTML you provided (each .dropdown contains an <a> and a .mega-menu).
+   - Hidden by default (no layout push)
+   - Appears on hover / keyboard focus on desktop
+   - Limits height and scrolls internally if content is tall
+   - Supports mobile: .mega-menu.open (JS can toggle this) shows the content in-flow
+   - Keeps visual styling consistent with your design
+---------------------------------------------------------------------------------- */
 
 .navbar nav {
   display: flex;
   gap: 28px;
   align-items: center;
   position: relative;
-  z-index: 1100; /* ensures dropdown sits above most content */
+  z-index: 1100;
 }
 
 .navbar nav a {
@@ -800,42 +802,56 @@ direction:ltr;
   position: relative;
 }
 
-/* each dropdown wrapper is an inline-block so it won't expand full width */
+/* dropdown context (inline so it doesn't expand full width) */
 .dropdown {
   position: relative;
   display: inline-block;
   vertical-align: middle;
 }
 
-/* base hidden state for the mega menu (does not affect layout) */
+/* parent link hint (optional arrow) */
+.dropdown > a {
+  display: inline-block;
+  padding: 6px 4px;
+  cursor: pointer;
+}
+.dropdown > a::after {
+  content: " ▼";
+  font-size: 10px;
+  margin-left: 6px;
+  opacity: .9;
+}
+
+/* the mega menu itself (hidden by default; absolute so it does not push layout) */
 .mega-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 8px);               /* sits below the parent link */
   left: 50%;
   transform: translateX(-50%) translateY(8px);
-  width: min(1200px, 95vw);
+  width: min(1200px, 96vw);            /* responsive max width */
+  max-width: 1200px;
   background: #ffffff;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.10);
-  padding: 22px 26px;
   border-radius: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 18px 40px rgba(6,22,63,0.07);
+  box-sizing: border-box;
 
-  /* layout: responsive grid that wraps into sensible columns */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 18px;
   white-space: normal;
-  box-sizing: border-box;
 
-  /* hidden visually and removed from pointer flow */
+  /* hidden state (doesn't affect document flow) */
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
   transform-origin: top center;
-  transition: opacity .20s ease, transform .20s ease, visibility .20s;
-  max-height: 70vh;     /* prevent it from growing full-page */
-  overflow: auto;       /* internal scrolling when content is tall */
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  max-height: 70vh;          /* prevents it from expanding full page */
+  overflow: auto;            /* scroll internally when content too tall */
+  -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  z-index: 1200;
+  z-index: 1300;
 }
 
 /* show on hover or keyboard focus (desktop) */
@@ -847,7 +863,7 @@ direction:ltr;
   pointer-events: auto;
 }
 
-/* manual open (useful for mobile toggles via JS) */
+/* manual "open" state for mobile toggling via JS (keeps it consistent) */
 .mega-menu.open {
   visibility: visible;
   opacity: 1;
@@ -855,14 +871,21 @@ direction:ltr;
   pointer-events: auto;
 }
 
-/* columns inside the mega menu */
+/* column/item styling */
 .mega-column {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* ensure links wrap and are easy to hit */
+.mega-column strong {
+  font-size: 13px;
+  color: #555;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display:block;
+}
+
 .mega-column a {
   display: block;
   color: #333;
@@ -870,7 +893,7 @@ direction:ltr;
   text-decoration: none;
   padding: 6px 2px;
   line-height: 1.25;
-  transition: color .18s ease, transform .18s ease;
+  transition: color .16s ease, transform .16s ease;
 }
 
 .mega-column a:hover,
@@ -880,37 +903,32 @@ direction:ltr;
   outline: none;
 }
 
-.mega-column strong {
-  font-size: 13px;
-  color: #555;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+/* SAFEGUARD: if mega-menu would overflow viewport edges, allow it to clamp inside */
+@media (min-width: 1200px) {
+  /* keep centered under parent but ensure it doesn't overflow the viewport visually */
+  .mega-menu {
+    left: 50%;
+  }
 }
 
-/* dropdown arrow indicator on parent link */
-.dropdown > a::after {
-  content: " ▼";
-  font-size: 10px;
-  margin-left: 6px;
-}
-
-/* small screens: static flow (inside the nav), hidden by default;
-   JS can toggle .open on .mega-menu to reveal the mobile menu */
+/* MOBILE: make mega-menu flow in document (hidden by default); use .open to show */
 @media (max-width: 900px) {
+  .navbar nav { gap: 12px; }
+
   .mega-menu {
     position: static;
     transform: none;
-    top: auto;
     left: auto;
+    top: auto;
     width: 100%;
     padding: 12px 14px;
     box-shadow: none;
     border-radius: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
 
-    /* hidden by default on small screens; .open shows it */
+    /* hidden by default on mobile: JS should toggle .open */
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -925,6 +943,5 @@ direction:ltr;
     pointer-events: auto;
   }
 
-  .navbar nav { gap: 12px; }
-  .mega-column a { padding: 8px 4px; }
+  .mega-column a { padding: 10px 6px; }
 }
