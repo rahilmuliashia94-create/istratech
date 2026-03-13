@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products — Everest Security Pvt. Ltd.</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Page-scoped small additions (kept minimal to match your design rules) */
+    .products-page {
+      padding: 140px 40px 80px 40px;
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+    }
+    .products-page h1 { font-size: 40px; margin-bottom: 30px; }
+    .product-search { margin-bottom: 28px; }
+    .product-search input {
+      width: 100%;
+      max-width: 560px;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+    .product-filters {
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:34px;
+    }
+    .filter-btn {
+      padding:10px 18px;
+      border-radius:8px;
+      border:1px solid rgba(0,0,0,0.06);
+      background:white;
+      cursor:pointer;
+      transition:0.22s;
+      font-weight:600;
+    }
+    .filter-btn.active { background:#0077ff; color:#fff; border-color: rgba(0,119,255,0.9); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,119,255,0.12); }
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:28px; margin-top:8px; }
+    /* ensure product-card uses the same look as style.css; no style overrides beyond layout */
+    @media (max-width:900px) {
+      .products-page { padding: 110px 20px 60px 20px; }
+      .product-search input { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV (keeps your original navbar structure) -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">ISRATECH</div>
+
+      <nav>
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="why-us.html">Why Choose Us</a>
+        <a href="index.html#solutions">Solutions</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <button class="cta" onclick="location.href='contact.html'">Get Quote</button>
+    </div>
+  </header>
+
+  <!-- PRODUCTS PAGE -->
+  <main class="products-page">
+
+    <h1>Security Products</h1>
+
+    <div class="product-search">
+      <input id="productSearch" type="search" placeholder="Search products by name or description..." aria-label="Search products">
+    </div>
+
+    <div class="product-filters" role="toolbar" aria-label="Product categories">
+      <button type="button" class="filter-btn active" data-filter="all">All</button>
+      <button type="button" class="filter-btn" data-filter="sensor">Sensors</button>
+      <button type="button" class="filter-btn" data-filter="panel">Control Panels</button>
+      <button type="button" class="filter-btn" data-filter="wireless">Wireless</button>
+      <button type="button" class="filter-btn" data-filter="accessory">Accessories</button>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- keep the exact product-card markup and filenames you've been using -->
+      <div class="product-card" data-category="panel" tabindex="0" role="button">
+        <img src="ACTEC-SERIES.jpg" alt="ACTEC Series">
+        <h3>ACTEC Series</h3>
+        <p>Professional monitoring series for medium and large installations.</p>
+      </div>
+
+      <div class="product-card" data-category="panel" tabindex="0" role="button">
+        <img src="ALARM-CONTROL-PANELS.jpg" alt="Alarm Control Panels">
+        <h3>Alarm Control Panels</h3>
+        <p>Central command units to manage alarms and sensors.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="CEILING-MOUNT.jpg" alt="Ceiling Mount Sensors">
+        <h3>Ceiling Mount Sensors</h3>
+        <p>High precision motion sensors ideal for indoor coverage.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="CONTROL-PANEL-ACCESSORIES.jpg" alt="Control Panel Accessories">
+        <h3>Panel Accessories</h3>
+        <p>Expand and customize your control panel with official accessories.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="CSB-DIGILON.jpg" alt="CSB Digilon">
+        <h3>CSB Digilon</h3>
+        <p>Reliable communication module and gateway for alarm reporting.</p>
+      </div>
+
+      <div class="product-card" data-category="panel" tabindex="0" role="button">
+        <img src="EVEREST-PLATINUM.jpg" alt="Everest Platinum">
+        <h3>Everest Platinum</h3>
+        <p>Premium enterprise monitoring solution with advanced features.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="EVEREST-SECURITY-ACCESSORIES.jpg" alt="Everest Accessories">
+        <h3>Security Accessories</h3>
+        <p>Brackets, mounts and extras to complete professional installs.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="EXTERNAL-DETECTION-SENSORS-EDS-SERIES.jpg" alt="EDS Series">
+        <h3>EDS Series</h3>
+        <p>External detection sensors for perimeter protection.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="FREEWAVE-ACCESSORIES.jpg" alt="Freewave Accessories">
+        <h3>Freewave Accessories</h3>
+        <p>Wireless components and antennas for resilient links.</p>
+      </div>
+
+      <div class="product-card" data-category="wireless" tabindex="0" role="button">
+        <img src="INTEGRATED-WIRELESS-CONTROL-PANELS.jpg" alt="Integrated Wireless Panels">
+        <h3>Integrated Wireless Panels</h3>
+        <p>Hybrid panels with built-in wireless communications.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="KD-SERIES.jpg" alt="KD Series">
+        <h3>KD Series</h3>
+        <p>Perimeter and exterior detection line for heavy-duty sites.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="MR-SERIES.jpg" alt="MR Series">
+        <h3>MR Series</h3>
+        <p>Motion recognition sensors with adjustable sensitivity.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="MS-SERIES.jpg" alt="MS Series">
+        <h3>MS Series</h3>
+        <p>Multi-sensor detection for complex environments.</p>
+      </div>
+
+      <div class="product-card" data-category="sensor" tabindex="0" role="button">
+        <img src="SD-SERIES.jpg" alt="SD Series">
+        <h3>SD Series</h3>
+        <p>Specialized detectors for challenging conditions.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="UNIVERSAL-RECEIVER-INTERFACES.jpg" alt="Universal Receiver Interfaces">
+        <h3>Receiver Interfaces</h3>
+        <p>Interfaces and converters for legacy system integration.</p>
+      </div>
+
+      <div class="product-card" data-category="accessory" tabindex="0" role="button">
+        <img src="Universal-Reveiver-Interfaces-smart-gsm-controllers.jpg" alt="Smart GSM Controllers">
+        <h3>Smart GSM Controllers</h3>
+        <p>GSM backup and smart controller modules for reporting resilience.</p>
+      </div>
+
+      <div class="product-card" data-category="wireless" tabindex="0" role="button">
+        <img src="Z-SERIES.jpg" alt="Z Series">
+        <h3>Z Series</h3>
+        <p>Wireless monitoring devices with low-power design.</p>
+      </div>
+
+      <div class="product-card" data-category="wireless" tabindex="0" role="button">
+        <img src="Z-SRPG-SERIES.jpg" alt="Z-SRPG Series">
+        <h3>Z-SRPG Series</h3>
+        <p>Smart integrated detection and reporting unit.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PRODUCT POPUP (page includes popup so preview is instant) -->
+  <div class="product-popup" id="popup" aria-hidden="true">
+    <div class="popup-content" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+      <div class="popup-close" id="popup-close" title="Close">✕</div>
+      <img id="popup-img" src="" alt="">
+      <h3 id="popup-title"></h3>
+      <p id="popup-text"></p>
+    </div>
+  </div>
+
+  <!-- your shared global script (keeps all existing behaviours) -->
+  <script src="script.js"></script>
+
+  <!-- page-scoped script (search, filters, popup wiring) -->
+  <script>
+    (function () {
+      // helper
+      const $ = (s, r = document) => r.querySelector(s);
+      const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = $('#productSearch');
+        const grid = $('#productGrid');
+        const cards = $$('.product-card', grid);
+        const filters = $$('.filter-btn');
+
+        // --- SEARCH ---
+        if (searchInput) {
+          searchInput.addEventListener('input', function () {
+            const q = (this.value || '').trim().toLowerCase();
+            cards.forEach(card => {
+              const text = (card.innerText || '').toLowerCase();
+              const matches = q === '' || text.indexOf(q) !== -1;
+              card.style.display = matches ? 'block' : 'none';
+            });
+          });
+        }
+
+        // --- FILTER BUTTONS ---
+        filters.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filters.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            cards.forEach(card => {
+              if (filter === 'all' || card.dataset.category === filter) {
+                card.style.display = 'block';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            // clear search input when a filter is chosen (helps user see filter result)
+            if (searchInput) searchInput.value = '';
+          });
+        });
+
+        // --- POPUP wiring (works even if global products() did not run) ---
+        const popup = $('#popup');
+        const popupImg = $('#popup-img');
+        const popupTitle = $('#popup-title');
+        const popupText = $('#popup-text');
+        const popupClose = $('#popup-close');
+
+        function openPopup(src, title, text) {
+          if (!popup) return;
+          if (popupImg) { popupImg.src = src || ''; popupImg.alt = title || ''; }
+          if (popupTitle) popupTitle.textContent = title || '';
+          if (popupText) popupText.textContent = text || '';
+          popup.classList.add('active');
+          popup.setAttribute('aria-hidden', 'false');
+          // focus trap: focus close so keyboard can close quickly
+          if (popupClose) popupClose.focus();
+        }
+        function closePopup() {
+          if (!popup) return;
+          popup.classList.remove('active');
+          popup.setAttribute('aria-hidden', 'true');
+        }
+
+        // attach click and key handlers to product cards
+        cards.forEach(card => {
+          if (!card) return;
+          card.addEventListener('click', () => {
+            const imgEl = card.querySelector('img');
+            const src = (imgEl && (imgEl.getAttribute('data-full') || imgEl.src)) || '';
+            const title = (card.querySelector('h3') || {}).innerText || '';
+            const text = (card.querySelector('p') || {}).innerText || '';
+            openPopup(src, title, text);
+          });
+          // make Enter & Space open popup for keyboard users
+          card.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+              ev.preventDefault();
+              card.click();
+            }
+          });
+        });
+
+        // popup close handlers
+        if (popupClose) popupClose.addEventListener('click', closePopup);
+        if (popup) {
+          popup.addEventListener('click', (ev) => {
+            const content = popup.querySelector('.popup-content');
+            if (!content.contains(ev.target)) closePopup();
+          });
+        }
+        document.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Escape') closePopup();
+        });
+
+        // accessibility: ensure filter buttons and search are keyboard friendly
+        filters.forEach(b => { if (!b.hasAttribute('type')) b.setAttribute('type', 'button'); });
+
+      }); // DOMContentLoaded
+    })();
+  </script>
+
+</body>
+</html>
